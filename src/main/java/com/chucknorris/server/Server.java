@@ -55,30 +55,30 @@ public class Server {
 				hola = hola + sc.nextLine();
 				NamePasswordResponse nyc = gson.fromJson(hola, NamePasswordResponse.class);
 				// Validacion de personaje
-				Jugador pepe = null;
-				if(!nyc.reg)
-					pepe = JugadorDAO.loguear(nyc.name, nyc.password);
-				else {
-					pepe = JugadorDAO.registrar(nyc.name, nyc.password);
-					if(pepe==null) {
-						ps = new PrintStream(clientSocketLobby.getOutputStream());
-						ps.println(gson.toJson(new Command("FatalError", "Nombre ya registrado")));
-						clientSocketLobby.close();
-						continue;
-					}
-				}
-				if(pepe==null) {
-					ps = new PrintStream(clientSocketLobby.getOutputStream());
-					ps.println(gson.toJson(new Command("FatalError", "Nombre o Contraseña Incorrectos")));
-					clientSocketLobby.close();
-					continue;
-				}
-				if(threadsMap.containsKey(nyc.name)) {
-					ps = new PrintStream(clientSocketLobby.getOutputStream());
-					ps.println(gson.toJson(new Command("FatalError", "Ya se encuentra conectado alguien con ese nombre")));
-					clientSocketLobby.close();
-					continue;
-				}
+//				Jugador pepe = null;
+//				if(!nyc.reg)
+//					pepe = JugadorDAO.loguear(nyc.name, nyc.password);
+//				else {
+//					pepe = JugadorDAO.registrar(nyc.name, nyc.password);
+//					if(pepe==null) {
+//						ps = new PrintStream(clientSocketLobby.getOutputStream());
+//						ps.println(gson.toJson(new Command("FatalError", "Nombre ya registrado")));
+//						clientSocketLobby.close();
+//						continue;
+//					}
+//				}
+//				if(pepe==null) {
+//					ps = new PrintStream(clientSocketLobby.getOutputStream());
+//					ps.println(gson.toJson(new Command("FatalError", "Nombre o Contraseña Incorrectos")));
+//					clientSocketLobby.close();
+//					continue;
+//				}
+//				if(threadsMap.containsKey(nyc.name)) {
+//					ps = new PrintStream(clientSocketLobby.getOutputStream());
+//					ps.println(gson.toJson(new Command("FatalError", "Ya se encuentra conectado alguien con ese nombre")));
+//					clientSocketLobby.close();
+//					continue;
+//				}
 				ClientLobbyThread newClient = new ClientLobbyThread(nyc.name, clientSocketLobby, threadsMap, salas,puntajes, mapaDeVivos);
 				// ClientLobbyThread tendria que consultar los datos de sus playerId para
 				// mandarlo a los frames
